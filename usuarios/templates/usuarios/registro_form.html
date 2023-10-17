@@ -1,7 +1,13 @@
 {% extends 'inicio/homepage.html' %} {% block content %}
 <h2>Registrar Usuario</h2>
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Registrar</button>
+<form method="post" class="form-container">
+  <!-- Agrega la clase 'form-container' para aplicar estilos -->
+  {% csrf_token %} {% load static %}
+  <!-- Carga los archivos estáticos -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}" />
+  <!-- Enlace al archivo CSS personalizado -->
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-register">Registrar</button>
+  <!-- Aplica la clase 'btn-register' para el botón -->
 </form>
 {% endblock %}
