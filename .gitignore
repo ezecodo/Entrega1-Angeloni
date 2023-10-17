@@ -1,1 +1,17 @@
 __pycache__/
+venv/
+*.pyc
+*.pyo
+*.log
+*.sqlite3
+*.swp
+*.DS_Store
+*.egg-info/
+*.db
+*.pot
+*.mo
+db.sqlite3
+*.log
+*.pot
+*.mo
+*.tar.gz
