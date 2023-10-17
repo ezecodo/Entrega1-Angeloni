@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biblioteca Personal</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+  </head>
+  <body>
+    <!-- Encabezado / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Biblioteca Personal</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#"
+              >Inicio <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <!-- Puedes agregar más elementos al menú aquí -->
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-4">
+      <!-- Aquí iría el contenido dinámico de la página -->
+      <h1>Bienvenido a la Biblioteca Personal</h1>
+      <p>Explora la colección de libros y mucho más.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4 mt-4">
+      <div class="container text-center">
+        <p>&copy; 2023 Biblioteca Personal. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS (y Popper.js para los tooltips y popovers) -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
