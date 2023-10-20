@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView
 from usuarios.forms import CustomUserCreationForm, AuthenticationForm
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
 
 
 
@@ -29,6 +30,10 @@ class CustomLoginView(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('login_exitoso')
+    
+    def form_invalid(self, form):
+         messages.error(self.request, "Su usuario o contraseña es incorrecta, vuelva a intentarlo de nuevo.")
+         return super().form_invalid(form)
     
 
 class LoginExitosoView(TemplateView):

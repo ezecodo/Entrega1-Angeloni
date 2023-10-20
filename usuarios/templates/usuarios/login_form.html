@@ -1,7 +1,11 @@
 {% extends 'inicio/homepage.html' %} {% block content %}
 <h2>Iniciar Sesión</h2>
 <form method="post">
-  {% csrf_token %} {{ form.as_p }}
+  {% csrf_token %} {% if form.errors %}
+  <div class="alert alert-danger">
+    Su usuario o contraseña es incorrecta, vuelva a intentarlo de nuevo.
+  </div>
+  {% endif %} {{ form.as_p }}
   <button type="submit">Ingresar</button>
 </form>
 {% endblock %}
