@@ -1,4 +1,9 @@
 /* Estilo para el formulario de registro */
+
+.navbar-nav.ml-auto {
+  display: flex;
+  flex-direction: row-reverse;
+}
 .form-container {
   max-width: 400px;
   margin: 0 auto;
@@ -35,4 +40,10 @@
 
 .btn-register:hover {
   background-color: #0056b3;
+}
+
+.greeting {
+  position: absolute;
+  top: 0;
+  right: 10px;
 }

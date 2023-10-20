@@ -5,4 +5,10 @@
   disfrutar de nuestra plataforma.
 </p>
 
+<h2>Iniciar Sesión</h2>
+<form method="post" action="{% url 'login' %}">
+  {% csrf_token %} {{ login_form.as_p }}
+  <button type="submit">Ingresar</button>
+</form>
+
 {% endblock %}
