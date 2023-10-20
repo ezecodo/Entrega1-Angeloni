@@ -23,3 +23,6 @@ from django.contrib.auth.views import LoginView
 class CustomLoginView(LoginView):
     form_class = AuthenticationForm
     template_name = 'usuarios/login_form.html' 
+
+class LoginExitosoView(TemplateView):
+    template_name = 'usuarios/login_exitoso.html' 
