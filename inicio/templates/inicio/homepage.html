@@ -34,14 +34,16 @@
           </li>
         </ul>
         <ul class="navbar-nav">
+          {% if not user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link btn btn-outline-primary" href="{% url 'login' %}"
               >Ingresar</a
             >
           </li>
+          {% endif %}
         </ul>
-
         <ul class="navbar-nav">
+          {% if not user.is_authenticated %}
           <li class="nav-item">
             <a
               class="nav-link btn btn-outline-primary"
@@ -49,6 +51,15 @@
               >Registrar</a
             >
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a
+              class="nav-link btn btn-outline-primary"
+              href="{% url 'logout' %}"
+              >Salir</a
+            >
+          </li>
+          {% endif %}
         </ul>
       </div>
     </nav>
