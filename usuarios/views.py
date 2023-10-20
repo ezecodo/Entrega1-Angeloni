@@ -8,6 +8,9 @@ from django.contrib.auth.views import LoginView
 
 
 
+
+
+
 class UsuarioRegistroView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'usuarios/registro_form.html'
@@ -18,11 +21,19 @@ class RegistroExitosoView(TemplateView):
     template_name = 'usuarios/registro_exitoso.html'
 
 
-from django.contrib.auth.views import LoginView
+
 
 class CustomLoginView(LoginView):
     form_class = AuthenticationForm
     template_name = 'usuarios/login_form.html' 
+    
+    def get_success_url(self):
+        return reverse_lazy('login_exitoso')
+    
 
 class LoginExitosoView(TemplateView):
-    template_name = 'usuarios/login_exitoso.html' 
+    template_name = 'usuarios/login_exitoso.html'
+
+
+
+    
