@@ -5,6 +5,8 @@ from usuarios.forms import CustomUserCreationForm, AuthenticationForm
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 
 
@@ -42,3 +44,6 @@ class LoginExitosoView(TemplateView):
 
 
     
+def user_logout(request):
+    logout(request)
+    return redirect('homepage')
