@@ -44,6 +44,11 @@
 
 .greeting {
   position: absolute;
-  top: 0;
+  top: 15px;
   right: 10px;
+  background-color: #007bff; /* Cambia el color de fondo a azul */
+  color: #fff; /* Cambia el color del texto a blanco */
+  padding: 5px 10px; /* Añade un poco de espacio alrededor del texto */
+  border-radius: 3px; /* Agrega esquinas redondeadas */
+  font-size: 16px; /* Cambia el tamaño de la fuente */
 }

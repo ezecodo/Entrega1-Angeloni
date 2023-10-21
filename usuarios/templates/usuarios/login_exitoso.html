@@ -1,7 +1,4 @@
 {% extends 'inicio/homepage.html' %} {% block content %}
-<h2>¡Login Exitóso!</h2>
-<p>
-  Bienvenid@ a la Biblioteca, comienza a organizar y gestionar tu Biblioteca
-</p>
-
+<h2>Bienvenido, {{ user.username }}</h2>
+<p>Has iniciado sesión exitosamente.</p>
 {% endblock %}
