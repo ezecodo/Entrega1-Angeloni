@@ -1,6 +1,5 @@
 
-from django.shortcuts import render, redirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LibroForm
 from django.shortcuts import render
 from .models import Libro
@@ -34,4 +33,18 @@ def ingresar_libro(request):
 def lista_libros(request):
     libros = Libro.objects.all().order_by('titulo') 
     return render(request, 'libros/lista_libros.html', {'libros': libros})
+
+
+def editar_libro(request, libro_id):
+    libro = get_object_or_404(Libro, pk=libro_id)
+
+    if request.method == 'POST':
+        form = LibroForm(request.POST, instance=libro)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_libros')
+    else:
+        form = LibroForm(instance=libro)
+
+    return render(request, 'libros/editar_libro.html', {'form': form, 'libro': libro})
 
