@@ -1,0 +1,11 @@
+{% extends 'inicio/homepage.html' %} {% block content %}
+<h2>Lista de Libros</h2>
+<ul>
+  {% for libro in libros %}
+  <li>{{ libro.titulo }} - {{ libro.autor }}</li>
+  {% empty %}
+  <li>No hay libros en la lista.</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'ingresar_libro' %}" class="btn btn-primary">Agregar Libro</a>
+{% endblock %}
