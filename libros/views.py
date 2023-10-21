@@ -16,14 +16,13 @@ def ingresar_libro(request):
     if request.method == 'POST':
         form = LibroForm(request.POST)
         if form.is_valid():
-            
             titulo = form.cleaned_data['titulo']
             autor = form.cleaned_data['autor']
             if not Libro.objects.filter(titulo=titulo, autor=autor).exists():
                 form.save()
-                return redirect('lista_libros') 
+               
+                return redirect('homepage')
             else:
-                
                 form.add_error('titulo', 'Este libro ya existe en la biblioteca.')
     else:
         form = LibroForm()
