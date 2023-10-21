@@ -26,7 +26,7 @@ def ingresar_libro(request):
                 
                 form.add_error('titulo', 'Este libro ya existe en la biblioteca.')
     else:
-        form = IngresarLibroForm()
+        form = LibroForm()
     return render(request, 'libros/ingresar_libro.html', {'form': form})
 
 
