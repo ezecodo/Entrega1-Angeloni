@@ -1,12 +1,35 @@
-{% extends 'inicio/homepage.html' %} {% block content %}
+{% extends 'inicio/homepage.html' %} {% load static %}{% block content %}
 <h2>Lista de Libros</h2>
-<ul>
+<div class="row">
   {% for libro in libros %}
-  <li>
-    {{ libro.titulo }} por {{ libro.autor }} -
-    <a href="{% url 'editar_libro' libro.id %}">Editar</a>
-  </li>
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <img
+        src="{% if libro.imagen %}{{ libro.imagen.url }}{% else %}{% static 'placeholder.jpg' %}{% endif %}"
+        class="card-img-top"
+        alt="Imagen del libro"
+        style="max-width: 100%; max-height: 400px"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ libro.titulo }}</h5>
+        <p class="card-text">{{ libro.descripcion }}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Por {{ libro.usuario.username }}</small>
+        <a
+          href="{% url 'editar_libro' libro.id %}"
+          class="btn btn-primary btn-sm float-right ml-2"
+          >Editar</a
+        >
+        <a
+          href="{% url 'eliminar_libro' libro.id %}"
+          class="btn btn-danger btn-sm float-right"
+          >Eliminar</a
+        >
+      </div>
+    </div>
+  </div>
   {% endfor %}
-</ul>
+</div>
 <a href="{% url 'ingresar_libro' %}" class="btn btn-primary">Ingresar Libro</a>
 {% endblock %}

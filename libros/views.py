@@ -13,13 +13,12 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def ingresar_libro(request):
     if request.method == 'POST':
-        form = LibroForm(request.POST)
+        form = LibroForm(request.POST, request.FILES) 
         if form.is_valid():
             titulo = form.cleaned_data['titulo']
             autor = form.cleaned_data['autor']
             if not Libro.objects.filter(titulo=titulo, autor=autor).exists():
                 form.save()
-               
                 return redirect('homepage')
             else:
                 form.add_error('titulo', 'Este libro ya existe en la biblioteca.')
@@ -39,7 +38,7 @@ def editar_libro(request, libro_id):
     libro = get_object_or_404(Libro, pk=libro_id)
 
     if request.method == 'POST':
-        form = LibroForm(request.POST, instance=libro)
+        form = LibroForm(request.POST, request.FILES, instance=libro)
         if form.is_valid():
             form.save()
             return redirect('lista_libros')
@@ -47,4 +46,15 @@ def editar_libro(request, libro_id):
         form = LibroForm(instance=libro)
 
     return render(request, 'libros/editar_libro.html', {'form': form, 'libro': libro})
+
+
+
+def eliminar_libro(request, libro_id):
+    libro = get_object_or_404(Libro, id=libro_id)
+
+    if request.method == 'POST':
+        libro.delete()
+        return redirect('lista_libros')
+
+    return render(request, 'libros/eliminar_libro.html', {'libro': libro})
 
