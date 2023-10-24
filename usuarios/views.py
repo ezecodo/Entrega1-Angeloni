@@ -12,6 +12,11 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import UserProfile
+from .forms import UserProfileForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 
 
@@ -75,14 +80,50 @@ def user_logout(request):
 
 @login_required
 def perfil(request):
-    profile, created = UserProfile.objects.get_or_create(user=request.user)  
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
 
-    if request.method == "POST" and 'profile_image' in request.FILES:
-        profile.profile_image = request.FILES['profile_image']
-        profile.save()
-    return render(request, 'usuarios/perfil.html', {'profile': profile})
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Perfil actualizado con éxito.")
+        else:
+            messages.error(request, "Hubo un error al actualizar el perfil.")
+    else:
+        form = UserProfileForm(instance=profile)
 
+    return render(request, 'usuarios/perfil.html', {'profile': profile, 'form': form})
 
 
 class RegistroExitosoView(TemplateView):
     template_name = 'usuarios/registro_exitoso.html'
+
+
+
+
+@login_required
+def configuracion(request):
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(request.user, request.POST)
+        
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)  # Actualizar la sesión para que no se cierre después de cambiar la contraseña
+            messages.success(request, 'Tu contraseña ha sido actualizada con éxito!')
+            
+            # Actualizar email
+            new_email = request.POST.get('email')
+            if new_email and new_email != request.user.email:
+                request.user.email = new_email
+                request.user.save()
+                messages.success(request, 'Tu email ha sido actualizado con éxito!')
+            
+            return redirect('perfil')
+        else:
+            messages.error(request, 'Por favor, corrige los errores.')
+    else:
+        password_form = PasswordChangeForm(request.user)
+    
+    return render(request, 'usuarios/perfil.html', {
+        'password_form': password_form,
+    })

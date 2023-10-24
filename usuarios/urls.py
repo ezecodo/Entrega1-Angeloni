@@ -13,6 +13,7 @@ urlpatterns = [
    path('login_exitoso/', LoginExitosoView.as_view(), name='login_exitoso'), 
    path('salir/', views.user_logout, name='logout'),
    path('perfil/', views.perfil, name='perfil'),
+   path('configuracion/', views.configuracion, name='configuracion'),
     
 ]
 

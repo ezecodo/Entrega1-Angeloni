@@ -1,38 +1,95 @@
-{% extends "inicio/homepage.html" %} {% load static %} {% block content %}
+{% extends "inicio/homepage.html" %} 
+{% load static %} 
+
+{% block content %}
 
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-4">
       <div class="text-center">
         {% if profile.profile_image %}
-        <img
-          src="{{ profile.profile_image.url }}"
-          class="rounded-circle"
-          width="200"
-          height="200"
-        />
+        <img src="{{ profile.profile_image.url }}" class="rounded-circle" width="200" height="200" />
         {% else %}
-        <img
-          src="{% static 'img/default_profile.jpg' %}"
-          class="rounded-circle"
-          width="200"
-          height="200"
-        />
+        <img src="{% static 'img/default_profile.jpg' %}" class="rounded-circle" width="200" height="200" />
         {% endif %}
       </div>
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group mt-3">
-          <input type="file" name="profile_image" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">Actualizar Foto</button>
-      </form>
     </div>
     <div class="col-md-8">
       <h2>Hola, {{ user.username }}</h2>
       <p><strong>Biografía:</strong> {{ profile.bio }}</p>
+
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+        Actualizar Perfil
+      </button>
+      
+      <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#configuracionModal">
+        <i class="fas fa-cog"></i>
+      </button>
     </div>
   </div>
+</div>
+
+<!-- Modal para Editar Perfil -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProfileModalLabel">Actualizar Perfil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.profile_image.label }} {{ form.profile_image }}
+          </div>
+          <div class="form-group">{{ form.bio.label }} {{ form.bio }}</div>
+          <div class="form-group">{{ form.password.label }} {{ form.password }}</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Configuración -->
+<div class="modal fade" id="configuracionModal" tabindex="-1" aria-labelledby="configuracionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="configuracionModalLabel">Configuración</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'configuracion' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="old_password">Contraseña actual:</label>
+                        <input type="password" name="old_password" class="form-control" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="new_password1">Nueva contraseña:</label>
+                        <input type="password" name="new_password1" class="form-control" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="new_password2">Confirmar nueva contraseña:</label>
+                        <input type="password" name="new_password2" class="form-control" required>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
+                </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

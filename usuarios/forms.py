@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .models import UserProfile
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
@@ -40,3 +41,13 @@ class UsuarioLoginForm(AuthenticationForm):
         label="Contraseña",
         widget=forms.PasswordInput,
     )
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'profile_image']
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['profile_image'].widget.attrs.update({'class': 'form-control'})
+        self.fields['bio'].widget.attrs.update({'class': 'form-control', 'rows': '5'})
