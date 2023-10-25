@@ -1,0 +1,10 @@
+{% for mensaje in mensajes %}
+<div>
+  De: {{ mensaje.emisor.username }} <br />
+  Contenido: {{ mensaje.contenido }} <br />
+  Fecha: {{ mensaje.fecha_enviado }} <br />
+
+  ----------------------------
+</div>
+<h1>¡Esto es una prueba!</h1>
+{% endfor %}

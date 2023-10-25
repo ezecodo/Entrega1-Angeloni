@@ -108,10 +108,10 @@ def configuracion(request):
         
         if password_form.is_valid():
             user = password_form.save()
-            update_session_auth_hash(request, user)  # Actualizar la sesión para que no se cierre después de cambiar la contraseña
+            update_session_auth_hash(request, user)  
             messages.success(request, 'Tu contraseña ha sido actualizada con éxito!')
             
-            # Actualizar email
+         
             new_email = request.POST.get('email')
             if new_email and new_email != request.user.email:
                 request.user.email = new_email

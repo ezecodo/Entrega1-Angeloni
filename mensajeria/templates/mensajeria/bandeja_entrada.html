@@ -1,0 +1,68 @@
+{% extends "inicio/homepage.html" %} {% block content %}
+
+<div class="container mt-4">
+  <h2>Mensajes recibidos</h2>
+
+  {% if mensajes %}
+  <div class="list-group">
+    {% for mensaje in mensajes %}
+    <div class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">De: {{ mensaje.emisor.username }}</h5>
+        <small>{{ mensaje.fecha_enviado }}</small>
+      </div>
+      <p class="mb-1">{{ mensaje.contenido|truncatewords:20 }}</p>
+      <small>Click para responder</small>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-info mt-3">Todavía no tienes ningún mensaje.</div>
+  {% endif %}
+
+  <button
+    type="button"
+    class="btn btn-primary mt-3"
+    data-bs-toggle="modal"
+    data-bs-target="#enviarMensajeModal"
+  >
+    Enviar nuevo mensaje
+  </button>
+</div>
+
+<div
+  class="modal fade"
+  id="enviarMensajeModal"
+  tabindex="-1"
+  aria-labelledby="enviarMensajeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="enviarMensajeModalLabel">
+          Enviar nuevo mensaje
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'enviar_mensaje' %}">
+          {% csrf_token %} {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

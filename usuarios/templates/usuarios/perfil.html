@@ -18,9 +18,12 @@
       <h2>Hola, {{ user.username }}</h2>
       <p><strong>Biografía:</strong> {{ profile.bio }}</p>
 
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+      <button type="button" class="btn btn-info mt-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">
         Actualizar Perfil
       </button>
+      <button type="button" class="btn btn-info mt-2" onclick="location.href='{% url 'bandeja_entrada' %}'">
+        Mensajería
+    </button>
       
       <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#configuracionModal">
         <i class="fas fa-cog"></i>
