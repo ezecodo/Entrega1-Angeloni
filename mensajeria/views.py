@@ -24,4 +24,6 @@ def ver_mensajes(request):
 @login_required
 def bandeja_entrada(request):
     mensajes_recibidos = Mensaje.objects.filter(receptor=request.user).order_by('-fecha_enviado')
-    return render(request, 'mensajeria/bandeja_entrada.html', {'mensajes': mensajes_recibidos})
+    form = MensajeForm()  # Añade esta línea para incluir el formulario
+    return render(request, 'mensajeria/bandeja_entrada.html', {'mensajes': mensajes_recibidos, 'form': form})
+
