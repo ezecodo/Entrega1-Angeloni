@@ -1,0 +1,30 @@
+{% extends "inicio/homepage.html" %} {% block content %}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Mensajes enviados</h2>
+    <div>
+        <a href="{% url 'bandeja_entrada' %}" class="btn btn-secondary">Bandeja de entrada</a>
+    </div>
+</div>
+
+
+  {% if mensajes %}
+  <ul class="list-group mt-4">
+    {% for mensaje in mensajes %}
+    <li class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Para: {{ mensaje.receptor.username }}</h5>
+        <small class="text-muted"
+          >{{ mensaje.fecha_enviado|date:"d M, Y H:i" }}</small
+        >
+      </div>
+      <p class="mb-1">{{ mensaje.contenido|truncatewords:20 }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div class="alert alert-info mt-3">No has enviado ningún mensaje aún.</div>
+  {% endif %}
+</div>
+
+{% endblock %}

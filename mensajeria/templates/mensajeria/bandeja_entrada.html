@@ -1,35 +1,168 @@
 {% extends "inicio/homepage.html" %} {% block content %}
 
-<div class="container mt-4">
-  <h2>Mensajes recibidos</h2>
+<div class="container mt-5 mb-5">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>Mensajes recibidos</h2>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#enviarMensajeModal"
+    >
+      Enviar nuevo mensaje
+    </button>
+</button>
+<a href="{% url 'mensajes_enviados' %}" class="btn btn-secondary">
+  Mensajes enviados
+</a>
+  </div>
+  
 
   {% if mensajes %}
-  <div class="list-group">
+  <ul class="list-group mt-4">
     {% for mensaje in mensajes %}
-    <div class="list-group-item">
+    <li
+      class="list-group-item {% if not mensaje.leido %}list-group-item-warning{% endif %}"
+    >
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">De: {{ mensaje.emisor.username }}</h5>
-        <small>{{ mensaje.fecha_enviado }}</small>
+        <small class="text-muted"
+          >{{ mensaje.fecha_enviado|date:"d M, Y H:i" }}</small
+        >
       </div>
       <p class="mb-1">{{ mensaje.contenido|truncatewords:20 }}</p>
-      <small>Click para responder</small>
+      {% if not mensaje.leido %}
+      <span class="badge bg-warning text-dark">Nuevo</span>
+      {% endif %}
+      <div class="mt-2 d-flex justify-content-end">
+        {% if mensaje.emisor %}
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#responderMensajeModal-{{ mensaje.id }}"
+        >
+          Responder
+        </button>
+        {% else %}
+        <small class="text-muted"
+          >El usuario no existe o ha desactivado su cuenta.</small
+        >
+        {% endif %}
+      </div>
+    </li>
+
+    <!-- Modal para responder al mensaje -->
+    <div
+      class="modal fade"
+      id="responderMensajeModal-{{ mensaje.id }}"
+      tabindex="-1"
+      aria-labelledby="responderMensajeModalLabel-{{ mensaje.id }}"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5
+              class="modal-title"
+              id="responderMensajeModalLabel-{{ mensaje.id }}"
+            >
+              Responder a {{ mensaje.emisor.username }}
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="{% url 'enviar_mensaje' %}">
+              {% csrf_token %}
+
+              <!-- Campos ocultos -->
+              <input
+                type="hidden"
+                name="receptor"
+                value="{{ mensaje.emisor.id }}"
+              />
+              {% if mensaje.mensaje_original %}
+              <input
+                type="hidden"
+                name="mensaje_original"
+                value="{{ mensaje.mensaje_original.id }}"
+              />
+              {% else %}
+              <input
+                type="hidden"
+                name="mensaje_original"
+                value="{{ mensaje.id }}"
+              />
+              {% endif %}
+
+              <!-- Mostrar el contenido del mensaje original -->
+              <p><strong>Mensaje original:</strong></p>
+              <blockquote class="blockquote">
+                <p>{{ mensaje.contenido }}</p>
+                <footer class="blockquote-footer">
+                  {{ mensaje.emisor.username }}, {{ mensaje.fecha_enviado }}
+                </footer>
+              </blockquote>
+
+              <!-- Campo para escribir la respuesta -->
+              <label for="respuesta-{{ mensaje.id }}">Tu respuesta:</label>
+              <textarea
+                id="respuesta-{{ mensaje.id }}"
+                name="contenido"
+                class="form-control"
+                rows="4"
+                required
+              ></textarea>
+
+              <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+    <script>
+      $(document).ready(function () {
+        $("#responderMensajeModal-{{ mensaje.id }} form").on(
+          "submit",
+          function (event) {
+            event.preventDefault();
+            let formData = $(this).serialize();
+            $.post($(this).attr("action"), formData, function (response) {
+              if (response.success) {
+                $("#responderMensajeModal-{{ mensaje.id }}").modal("hide");
+              } else {
+                alert(
+                  "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."
+                );
+              }
+            });
+          }
+        );
+      });
+    </script>
+
     {% endfor %}
-  </div>
+  </ul>
   {% else %}
   <div class="alert alert-info mt-3">Todavía no tienes ningún mensaje.</div>
   {% endif %}
-
-  <button
-    type="button"
-    class="btn btn-primary mt-3"
-    data-bs-toggle="modal"
-    data-bs-target="#enviarMensajeModal"
-  >
-    Enviar nuevo mensaje
-  </button>
 </div>
 
+<!-- Modal para enviar mensaje -->
 <div
   class="modal fade"
   id="enviarMensajeModal"
@@ -53,7 +186,7 @@
       <div class="modal-body">
         <form method="post" action="{% url 'enviar_mensaje' %}">
           {% csrf_token %} {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">Enviar</button>
+          <button type="submit" class="btn btn-primary mt-3">Enviar</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -64,5 +197,61 @@
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+    $("#responderMensajeModal form").on("submit", function (event) {
+      event.preventDefault();
 
-{% endblock %}
+      $.ajax({
+        type: $(this).attr("method"),
+        url: $(this).attr("action"),
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function (response) {
+          if (response.success) {
+            // Cerrar el modal
+            $("#responderMensajeModal").modal("hide");
+          } else {
+            alert("Hubo un error al enviar el mensaje.");
+          }
+        },
+        error: function () {
+          alert("Hubo un error al enviar el mensaje.");
+        },
+      });
+    });
+  });
+</script>
+<!-- Modal de éxito -->
+<div class="modal fade" id="mensajeExitoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mensaje Enviado</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Mensaje enviado con éxito a {{ mensaje.receptor.username }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script para mostrar la modal de éxito si el mensaje fue enviado -->
+{% if mensaje_enviado %}
+<script>
+  $(document).ready(function () {
+    $("#mensajeExitoModal").modal("show");
+  });
+</script>
+{% endif %} {% endblock %}
