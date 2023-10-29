@@ -13,19 +13,20 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def ingresar_libro(request):
     if request.method == 'POST':
-        form = LibroForm(request.POST, request.FILES) 
+        form = LibroForm(request.POST, request.FILES)
         if form.is_valid():
             titulo = form.cleaned_data['titulo']
             autor = form.cleaned_data['autor']
             if not Libro.objects.filter(titulo=titulo, autor=autor).exists():
-                form.save()
+                libro = form.save(commit=False)  
+                libro.usuario = request.user  
+                libro.save()  
                 return redirect('homepage')
             else:
                 form.add_error('titulo', 'Este libro ya existe en la biblioteca.')
     else:
         form = LibroForm()
     return render(request, 'libros/ingresar_libro.html', {'form': form})
-
 
 
 

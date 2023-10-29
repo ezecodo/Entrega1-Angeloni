@@ -1,4 +1,4 @@
-{% extends 'inicio/homepage.html' %} {% load static %}{% block content %}
+{% extends 'inicio/homepage.html' %} {% load static %} {% block content %}
 <h2>Lista de Libros</h2>
 <div class="row">
   {% for libro in libros %}
@@ -16,6 +16,9 @@
       </div>
       <div class="card-footer">
         <small class="text-muted">Por {{ libro.usuario.username }}</small>
+
+        <!-- Si el usuario logeado es el Admin, tiene acceso a editar, eliminar cualquier libro subido por cualquier usuario, mosea se muestra los botones de Eliminar y Editar -->
+        {% if libro.usuario == request.user or request.user.is_staff %}
         <a
           href="{% url 'editar_libro' libro.id %}"
           class="btn btn-primary btn-sm float-right ml-2"
@@ -26,6 +29,7 @@
           class="btn btn-danger btn-sm float-right"
           >Eliminar</a
         >
+        {% endif %}
       </div>
     </div>
   </div>
