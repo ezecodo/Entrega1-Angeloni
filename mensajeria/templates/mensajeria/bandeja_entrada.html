@@ -11,12 +11,11 @@
     >
       Enviar nuevo mensaje
     </button>
-</button>
-<a href="{% url 'mensajes_enviados' %}" class="btn btn-secondary">
-  Mensajes enviados
-</a>
+
+    <a href="{% url 'mensajes_enviados' %}" class="btn btn-secondary">
+      Mensajes enviados
+    </a>
   </div>
-  
 
   {% if mensajes %}
   <ul class="list-group mt-4">
@@ -26,16 +25,28 @@
     >
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">De: {{ mensaje.emisor.username }}</h5>
+
         <small class="text-muted"
           >{{ mensaje.fecha_enviado|date:"d M, Y H:i" }}</small
         >
       </div>
+      <div class="d-flex align-items-center">
+        <a
+          href="{% url 'eliminar_mensaje' mensaje.id %}"
+          class="text-danger mr-2"
+          title="Eliminar mensaje"
+        >
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+
       <p class="mb-1">{{ mensaje.contenido|truncatewords:20 }}</p>
       {% if not mensaje.leido %}
       <span class="badge bg-warning text-dark">Nuevo</span>
       {% endif %}
       <div class="mt-2 d-flex justify-content-end">
         {% if mensaje.emisor %}
+
         <button
           type="button"
           class="btn btn-sm btn-outline-primary"
@@ -52,7 +63,7 @@
       </div>
     </li>
 
-    <!-- Modal para responder al mensaje -->
+    <!-- Ventana Modal, se abre para responder para al mensaje -->
     <div
       class="modal fade"
       id="responderMensajeModal-{{ mensaje.id }}"
@@ -134,26 +145,6 @@
         </div>
       </div>
     </div>
-    <script>
-      $(document).ready(function () {
-        $("#responderMensajeModal-{{ mensaje.id }} form").on(
-          "submit",
-          function (event) {
-            event.preventDefault();
-            let formData = $(this).serialize();
-            $.post($(this).attr("action"), formData, function (response) {
-              if (response.success) {
-                $("#responderMensajeModal-{{ mensaje.id }}").modal("hide");
-              } else {
-                alert(
-                  "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."
-                );
-              }
-            });
-          }
-        );
-      });
-    </script>
 
     {% endfor %}
   </ul>
@@ -197,61 +188,5 @@
     </div>
   </div>
 </div>
-<script>
-  $(document).ready(function () {
-    $("#responderMensajeModal form").on("submit", function (event) {
-      event.preventDefault();
 
-      $.ajax({
-        type: $(this).attr("method"),
-        url: $(this).attr("action"),
-        data: $(this).serialize(),
-        dataType: "json",
-        success: function (response) {
-          if (response.success) {
-            // Cerrar el modal
-            $("#responderMensajeModal").modal("hide");
-          } else {
-            alert("Hubo un error al enviar el mensaje.");
-          }
-        },
-        error: function () {
-          alert("Hubo un error al enviar el mensaje.");
-        },
-      });
-    });
-  });
-</script>
-<!-- Modal de éxito -->
-<div class="modal fade" id="mensajeExitoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Mensaje Enviado</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <p>Mensaje enviado con éxito a {{ mensaje.receptor.username }}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cerrar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Script para mostrar la modal de éxito si el mensaje fue enviado -->
-{% if mensaje_enviado %}
-<script>
-  $(document).ready(function () {
-    $("#mensajeExitoModal").modal("show");
-  });
-</script>
-{% endif %} {% endblock %}
+{% endblock %}

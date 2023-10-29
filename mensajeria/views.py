@@ -4,8 +4,9 @@ from .forms import MensajeForm
 from .models import Mensaje
 
 from django.contrib import messages
+from django.urls import reverse
 
-from django.http import JsonResponse
+
 
 @login_required
 def enviar_mensaje(request):
@@ -15,13 +16,13 @@ def enviar_mensaje(request):
             mensaje = form.save(commit=False)
             mensaje.emisor = request.user
             mensaje.save()
-            # Cambia la siguiente línea para enviar el mensaje a la misma vista con un contexto
-            return render(request, 'mensajeria/bandeja_entrada.html', {'mensaje_enviado': True, 'mensajes': Mensaje.objects.filter(receptor=request.user)})
+            messages.success(request, 'Mensaje enviado exitosamente.')
+            return redirect(reverse('bandeja_entrada'))  
 
     else:
         form = MensajeForm()
 
-    return render(request, 'mensajeria/enviar_mensaje.html', {'form': form})
+    return redirect('mensajeria/enviar_mensaje.html')
 
 
 
@@ -33,9 +34,22 @@ def ver_mensajes(request):
 @login_required
 def bandeja_entrada(request):
     mensajes_recibidos = Mensaje.objects.filter(receptor=request.user).order_by('-fecha_enviado')
-    form = MensajeForm()  # Añade esta línea para incluir el formulario
+    form = MensajeForm() 
     return render(request, 'mensajeria/bandeja_entrada.html', {'mensajes': mensajes_recibidos, 'form': form})
 
 def mensajes_enviados(request):
     mensajes = Mensaje.objects.filter(emisor=request.user).order_by('-fecha_enviado')
     return render(request, 'mensajeria/mensajes_enviados.html', {'mensajes': mensajes})
+
+
+@login_required
+def eliminar_mensaje(request, mensaje_id):
+    try:
+        mensaje = Mensaje.objects.get(id=mensaje_id, receptor=request.user)
+        mensaje.delete()
+        messages.success(request, 'Mensaje eliminado exitosamente.')
+    except Mensaje.DoesNotExist:
+        messages.error(request, 'Mensaje no encontrado.')
+
+    return redirect('bandeja_entrada')
+
