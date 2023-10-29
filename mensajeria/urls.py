@@ -8,6 +8,7 @@ urlpatterns = [
     path('bandeja_entrada/', views.bandeja_entrada, name='bandeja_entrada'),
     path('mensajes/enviados/', views.mensajes_enviados, name='mensajes_enviados'),
     path('mensajes/eliminar/<int:mensaje_id>/', views.eliminar_mensaje, name='eliminar_mensaje'),
+    path('enviar_mensaje/<int:user_id>/', views.enviar_mensaje_usuario, name='enviar_mensaje_usuario'),
 
     
 

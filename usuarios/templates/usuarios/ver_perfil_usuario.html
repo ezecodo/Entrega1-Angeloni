@@ -1,0 +1,91 @@
+{% extends "inicio/homepage.html" %} {% load static %} {% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="text-center">
+        {% if profile.profile_image %}
+        <img
+          src="{{ profile.profile_image.url }}"
+          class="rounded-circle"
+          width="200"
+          height="200"
+        />
+        {% else %}
+        <img
+          src="{% static 'img/default_profile.jpg' %}"
+          class="rounded-circle"
+          width="200"
+          height="200"
+        />
+        {% endif %}
+        <!-- Botón para abrir el modal -->
+        <button
+          type="button"
+          class="btn btn-primary mt-3"
+          data-bs-toggle="modal"
+          data-bs-target="#enviarMensajeModal"
+        >
+          Enviar mensaje
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <h2>{{ profile.user.username }}</h2>
+      <p><strong>Biografía:</strong> {{ profile.bio }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para enviar mensaje -->
+<div
+  class="modal fade"
+  id="enviarMensajeModal"
+  tabindex="-1"
+  aria-labelledby="enviarMensajeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="enviarMensajeModalLabel">
+          Enviar mensaje a {{ profile.user.username }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="post"
+          action="{% url 'enviar_mensaje_usuario' profile.user.id %}"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="mensaje">Mensaje:</label>
+            <textarea
+              class="form-control"
+              id="mensaje"
+              name="mensaje"
+              required
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

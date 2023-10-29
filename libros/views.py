@@ -21,7 +21,7 @@ def ingresar_libro(request):
                 libro = form.save(commit=False)  
                 libro.usuario = request.user  
                 libro.save()  
-                return redirect('homepage')
+                return redirect('lista_libros')
             else:
                 form.add_error('titulo', 'Este libro ya existe en la biblioteca.')
     else:

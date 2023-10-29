@@ -17,6 +17,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 
 
 
@@ -127,3 +129,14 @@ def configuracion(request):
     return render(request, 'usuarios/perfil.html', {
         'password_form': password_form,
     })
+
+
+
+
+def ver_perfil_usuario(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    profile = user.userprofile  
+    return render(request, 'usuarios/ver_perfil_usuario.html', {'user': user, 'profile': profile})
+
+
+
