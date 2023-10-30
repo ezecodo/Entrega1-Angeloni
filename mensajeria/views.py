@@ -36,7 +36,7 @@ def enviar_mensaje_usuario(request, user_id):
     if request.method == 'POST':
         contenido = request.POST['mensaje']
         Mensaje.objects.create(emisor=request.user, receptor=receptor, contenido=contenido)
-        return redirect('lista_libros')  # Ejemplo: 'ver_perfil_usuario' o la URL que prefieras.
+        return redirect('lista_libros') 
 
     return redirect('lista_libros')
 

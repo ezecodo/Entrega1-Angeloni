@@ -134,9 +134,10 @@ def configuracion(request):
 
 
 def ver_perfil_usuario(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    profile = user.userprofile  
-    return render(request, 'usuarios/ver_perfil_usuario.html', {'user': user, 'profile': profile})
+    profile_user = get_object_or_404(User, id=user_id)
+    profile = profile_user.userprofile  
+    return render(request, 'usuarios/ver_perfil_usuario.html', {'profile_user': profile_user, 'profile': profile})
+
 
 
 
