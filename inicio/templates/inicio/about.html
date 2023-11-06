@@ -1,0 +1,50 @@
+{% extends 'inicio/homepage.html' %} {% load static %} {% block content %}
+<div class="about-section py-5">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-6 mx-auto text-center">
+        <h2 class="fw-bold">Acerca de Nosotros</h2>
+        <p class="lead mt-3">Descubre quiénes somos y qué nos inspira.</p>
+        <div class="border-top pt-3 mt-3">
+          <img
+            src="{% static 'images/me.jpg' %}"
+            alt="Nuestro equipo"
+            class="img-fluid rounded-circle mb-4"
+            width="150"
+          />
+          <p>
+            Mi nombre es Ezequiel Angeloni, soy un apasionado de los libros, y
+            actualmente aprendiendo programación, con la cual intento combinar
+            mis gustos y otras habilidades, para así poder acercar soluciones a
+            problemas del dia a dia de las personas. Con esta plataforma quiero
+            fomentar el amor por la lectura y el conocimiento. Nuestro enfoque
+            está en construir una comunidad donde los libros sean el centro de
+            conexión entre las personas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extracss %}
+<style>
+  .about-section {
+    margin-top: 4rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+  }
+  .about-section h2 {
+    color: #495057;
+  }
+  .about-section p {
+    color: #6c757d;
+  }
+  .about-section .lead {
+    color: #212529;
+  }
+  .about-section img {
+    border: 4px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+</style>
+{% endblock %}
