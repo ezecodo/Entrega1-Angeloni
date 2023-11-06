@@ -11,7 +11,4 @@ venv/
 *.pot
 *.mo
 db.sqlite3
-*.log
-*.pot
-*.mo
 *.tar.gz

@@ -14,9 +14,11 @@ class CustomUserCreationForm(UserCreationForm):
     )
     password1 = forms.CharField(
         label="Contraseña",
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
     password2 = forms.CharField(
         label="Confirmación de contraseña",
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
     profile_image = forms.ImageField(
         label="Imagen de Perfil", 
