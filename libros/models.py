@@ -9,6 +9,7 @@ class Libro(models.Model):
     descripcion = RichTextField(blank=True, null=True)
     imagen = models.ImageField(upload_to='libros/', blank=True, null=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='libros', null=True)
+    ano_publicacion = models.IntegerField('Año de Publicación', blank=True, null=True)
 
 
     def __str__(self):

@@ -68,3 +68,7 @@ def eliminar_libro(request, libro_id):
 
     return render(request, 'libros/eliminar_libro.html', {'libro': libro})
 
+
+def lista_detalle_libros(request):
+    libros = Libro.objects.all().order_by('titulo')
+    return render(request, 'libros/lista_detalle_libros.html', {'libros': libros})
