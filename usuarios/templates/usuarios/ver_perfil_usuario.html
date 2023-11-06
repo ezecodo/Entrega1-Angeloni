@@ -32,7 +32,7 @@
 
     <div class="col-md-8">
       <h2>{{ profile.user.username }}</h2>
-      <p><strong>Biografía:</strong> {{ profile.bio }}</p>
+      <p><strong>Biografía:</strong> {{ profile.bio|safe }}</p>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from usuarios.forms import CustomUserCreationForm, AuthenticationForm, UsuarioLoginForm
+from usuarios.forms import CustomUserCreationForm, AuthenticationForm
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
@@ -9,14 +9,12 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import UserProfile
 from .forms import UserProfileForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 

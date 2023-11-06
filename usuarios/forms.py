@@ -46,6 +46,7 @@ class UsuarioLoginForm(AuthenticationForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    
     class Meta:
         model = UserProfile
         fields = ['bio', 'profile_image']
