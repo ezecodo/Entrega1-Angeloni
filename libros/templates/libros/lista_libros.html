@@ -26,6 +26,7 @@
             >{{ libro.usuario.username }}</a
           ></small
         >
+        {% if libro.usuario == request.user or request.user.is_staff %}
 
         <a
           href="{% url 'editar_libro' libro.id %}"
@@ -37,6 +38,7 @@
           class="btn btn-danger btn-sm float-right"
           >Eliminar</a
         >
+        {% endif %}
       </div>
     </div>
   </div>

@@ -71,3 +71,7 @@ def eliminar_mensaje(request, mensaje_id):
 
     return redirect('bandeja_entrada')
 
+
+def some_view(request):
+    num_mensajes_no_leidos = Mensaje.objects.filter(destinatario=request.user, leido=False).count()
+    return render(request, 'tu_template.html', {'num_mensajes_no_leidos': num_mensajes_no_leidos})
