@@ -12,3 +12,4 @@ venv/
 *.mo
 db.sqlite3
 *.tar.gz
+*.py[cod]

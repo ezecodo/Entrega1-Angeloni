@@ -12,22 +12,16 @@
       />
       <div class="card-body">
         <h5 class="card-title">{{ libro.titulo }}</h5>
-        <p class="card-text">{{ libro.descripcion }}</p>
+        <p class="card-text">{{ libro.descripcion|safe }}</p>
       </div>
       <div class="card-footer">
-        {% if libro.usuario %}
         <small class="text-muted"
           >Por
           <a href="{% url 'ver_perfil_usuario' libro.usuario.id %}"
             >{{ libro.usuario.username }}</a
           ></small
         >
-        {% else %}
-        <small class="text-muted">Por Usuario Desconocido</small>
-        {% endif %}
 
-        <!-- Si el usuario logeado es el Admin, tiene acceso a editar, eliminar cualquier libro subido por cualquier usuario, mosea se muestra los botones de Eliminar y Editar -->
-        {% if libro.usuario == request.user or request.user.is_staff %}
         <a
           href="{% url 'editar_libro' libro.id %}"
           class="btn btn-primary btn-sm float-right ml-2"
@@ -38,7 +32,6 @@
           class="btn btn-danger btn-sm float-right"
           >Eliminar</a
         >
-        {% endif %}
       </div>
     </div>
   </div>
