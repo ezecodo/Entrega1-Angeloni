@@ -52,7 +52,7 @@ class CustomLoginView(LoginView):
     template_name = 'usuarios/login_form.html' 
     
     def get_success_url(self):
-        return reverse_lazy('login_exitoso')
+        return reverse_lazy('lista_libros')
     
     def form_invalid(self, form):
          messages.error(self.request, "Su usuario o contraseña es incorrecta, vuelva a intentarlo de nuevo.")

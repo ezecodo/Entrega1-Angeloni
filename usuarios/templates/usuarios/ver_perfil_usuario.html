@@ -19,20 +19,20 @@
         />
         {% endif %}
         <!-- Botón para abrir el modal -->
-        <button
-          type="button"
-          class="btn btn-primary mt-3"
-          data-bs-toggle="modal"
-          data-bs-target="#enviarMensajeModal"
-        >
-          Enviar mensaje
-        </button>
       </div>
     </div>
 
     <div class="col-md-8">
       <h2>{{ profile.user.username }}</h2>
       <p><strong>Biografía:</strong> {{ profile.bio|safe }}</p>
+      <button
+        type="button"
+        class="btn btn-primary mt-3"
+        data-bs-toggle="modal"
+        data-bs-target="#enviarMensajeModal"
+      >
+        Enviar mensaje
+      </button>
     </div>
   </div>
 </div>

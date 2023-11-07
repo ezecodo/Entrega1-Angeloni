@@ -143,7 +143,13 @@
         </div>
       </div>
 
-      <div id="carouselBooks" class="carousel slide" data-bs-ride="carousel">
+      <div
+        id="carouselBooks"
+        class="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="3000"
+        data-bs-pause="false"
+      >
         <div class="carousel-inner">
           {% for grupo in libros_recientes|slice:"3" %}
           <div class="carousel-item {% if forloop.first %}active{% endif %}">
