@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biblioteca Personal</title>
-    
+
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link
       rel="stylesheet"
@@ -145,43 +145,56 @@
 
       <div id="carouselBooks" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          {% for libro in libros_recientes %}
-            {% if forloop.counter0|divisibleby:3 %}
-              {% if not forloop.first %}
+          {% for grupo in libros_recientes|slice:"3" %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="d-flex justify-content-around">
+              {% for libro in grupo %}
+              <div
+                class="card"
+                style="flex: 0 0 calc(33.333% - 20px); margin: 10px"
+              >
+                <div class="image-square-wrapper">
+                  <img
+                    src="{{ libro.imagen.url }}"
+                    class="card-img-top img-cover"
+                    alt="{{ libro.titulo }}"
+                  />
                 </div>
-              {% endif %}
-              <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <div class="d-flex justify-content-around">
-            {% endif %}
-            
-            <!-- Tarjeta de libro -->
-            <div class="card" style="flex: 0 0 calc(33.333% - 20px); margin: 10px;">
-              <div class="image-square-wrapper">
-                <img src="{{ libro.imagen.url }}" class="card-img-top img-cover" alt="{{ libro.titulo }}">
+                <div class="card-body">
+                  <h5 class="card-title">{{ libro.titulo }}</h5>
+                  <p class="card-text">{{ libro.autor }}</p>
+                  <p class="card-text">
+                    <small class="text-muted"
+                      >{{ libro.ano_publicacion }}</small
+                    >
+                  </p>
+                </div>
               </div>
-              <div class="card-body">
-                <h5 class="card-title">{{ libro.titulo }}</h5>
-                <p class="card-text">{{ libro.autor }}</p>
-                <p class="card-text"><small class="text-muted">{{ libro.ano_publicacion }}</small></p>
-              </div>
+              {% endfor %}
             </div>
-          
-      
-            {% if forloop.counter|divisibleby:3 or forloop.last %}
-                </div>
-              </div>
-            {% endif %}
+          </div>
           {% endfor %}
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBooks" data-bs-slide="prev">
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselBooks"
+          data-bs-slide="prev"
+        >
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselBooks" data-bs-slide="next">
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselBooks"
+          data-bs-slide="next"
+        >
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+
       {% endblock %}
     </main>
 
