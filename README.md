@@ -4,6 +4,10 @@
 - Alumno: Ezequiel Angeloni
 - Comision: 55075
 
+## Demo
+
+https://drive.google.com/file/d/1KfNLpIh4KecB-91m-D3LSs87sAbGjmzR/view?usp=sharing
+
 ## Descripción del Proyecto
 
 Biblioteca Personal es una aplicación web que permite a los usuarios gestionar su propia biblioteca de libros. Los usuarios pueden registrarse, iniciar sesión, agregar libros a su biblioteca personal y ver una lista de los libros que han ingresado. Esta aplicación está diseñada para ayudar a los amantes de la lectura a llevar un registro de los libros que han leído o desean leer.
@@ -49,6 +53,7 @@ Antes de ejecutar la aplicación, asegúrate de tener los siguientes requisitos 
 Regístrate o inicia sesión en la aplicación.
 Agrega libros a tu biblioteca personal proporcionando detalles como el título, el autor y otros datos relevantes.
 Visualiza la lista de libros en tu biblioteca personal.
+Opción de mensajería entre usuari@s.
 Disfruta de una manera fácil y organizada de llevar un registro de tus lecturas.
 
 ## Contribuciones
