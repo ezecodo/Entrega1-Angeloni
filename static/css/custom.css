@@ -1,6 +1,12 @@
 /* Estilos CSS */
 
-.navbar-nav.ml-auto {
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar-nav.ml-auto,
+.navbar-nav,
+.navbar-end {
   display: flex;
   align-items: center;
 }
@@ -43,21 +49,6 @@
   background-color: #0056b3;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-}
-
-.navbar-nav {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-end {
-  display: flex;
-  align-items: center;
-}
-
 .heart-icon {
   position: absolute;
   top: 10px;
@@ -70,4 +61,27 @@
 
 .heart-icon:hover {
   color: #ff3030;
+}
+
+.hero-image {
+  width: 100%;
+  max-height: calc(100vh - 56px);
+  object-fit: cover;
+}
+
+.hero-text {
+  position: absolute;
+  left: 50%;
+  color: white;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.hero-container {
+  position: relative;
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
 }
